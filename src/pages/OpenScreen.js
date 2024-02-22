@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  StatusBar
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SavedColors from "./SavedColors";
@@ -24,6 +25,8 @@ import {
 const OpenScreen = ({ backgroundColor, onSaveColor }) => {
   const [inputValue, setInputValue] = useState(""); // State to store the input value
 
+  const statusBarTextColor = isDarkColor(backgroundColor) ? "light-content" : "dark-content";
+
   const handleColorChange = () => {
     // Validate hex color code
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(inputValue)) {
@@ -38,6 +41,7 @@ const OpenScreen = ({ backgroundColor, onSaveColor }) => {
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
+      <StatusBar barStyle={statusBarTextColor} />
       <View style={styles.headerContainer}>
         <Text
           style={[
@@ -78,6 +82,25 @@ const OpenScreen = ({ backgroundColor, onSaveColor }) => {
       </TouchableOpacity>
     </View>
   );
+};
+
+const isDarkColor = (color) => {
+  // Convert hex color to RGB
+  const hexToRgb = (hex) => {
+    const bigint = parseInt(hex.replace("#", ""), 16);
+    return {
+      r: (bigint >> 16) & 255,
+      g: (bigint >> 8) & 255,
+      b: bigint & 255,
+    };
+  };
+
+  // Calculate luminance of the color
+  const { r, g, b } = hexToRgb(color);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+  // Return true if luminance is less than 0.5 (dark color), otherwise false
+  return luminance < 0.5;
 };
 
 const OpenStack = createBottomTabNavigator();
