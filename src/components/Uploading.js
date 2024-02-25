@@ -26,14 +26,14 @@ export function Uploading({ image, progress }) {
         <BlurView intensity={100} style={styles.blurView} tint="light">
           {image && <Image source={{ uri: image }} style={styles.image} />}
           <Text style={styles.uploadText}>Uploading...</Text>
-          <ProgressBar progress={progress}/>
+          <ProgressBar progress={progress} />
           <View
             style={{
               height: 1,
               borderWidth: StyleSheet.hairlineWidth,
               width: "100%",
               borderColor: "#00000020",
-              marginTop: 30
+              marginTop: 30,
             }}
           />
           <TouchableOpacity>
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
   },
   uploadText: {
     fontSize: 12,
-    marginBottom: 30
+    marginBottom: 30,
   },
   cancelText: {
     fontWeight: "500",
     color: "#3478F6",
     fontSize: 17,
-    marginTop: 10
+    marginTop: 10,
   },
 });

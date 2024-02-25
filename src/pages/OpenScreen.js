@@ -5,12 +5,13 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import SavedColors from "./SavedColors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MultiColorText from "../components/MultiColorText";
+import * as Animatable from "react-native-animatable";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -25,7 +26,9 @@ import ColorFinder from "./ColorFinder";
 const OpenScreen = ({ backgroundColor, onSaveColor }) => {
   const [inputValue, setInputValue] = useState(""); // State to store the input value
 
-  const statusBarTextColor = isDarkColor(backgroundColor) ? "light-content" : "dark-content";
+  const statusBarTextColor = isDarkColor(backgroundColor)
+    ? "light-content"
+    : "dark-content";
 
   const handleColorChange = () => {
     // Validate hex color code
@@ -42,12 +45,13 @@ const OpenScreen = ({ backgroundColor, onSaveColor }) => {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <StatusBar barStyle={statusBarTextColor} />
-      <View style={styles.headerContainer}>
+      <Animatable.View animation={"fadeInUp"} style={styles.headerContainer}>
         <Text
           style={[
             styles.header,
             {
               fontSize: 45,
+              fontWeight: "bold",
               fontFamily: "AnonymousPro_700Bold",
             },
           ]}
@@ -65,13 +69,15 @@ const OpenScreen = ({ backgroundColor, onSaveColor }) => {
         <Text style={styles.subtext}>
           You can look and save beautiful colors and use them on your designs!!!
         </Text>
-      </View>
-      <TextInput
-        style={[styles.input, { color: textColor }]}
-        placeholder="Enter hex color code #"
-        placeholderTextColor="#abababab"
-        onChangeText={(text) => setInputValue(text)}
-      />
+      </Animatable.View>
+      <Animatable.View animation={"fadeInUp"}>
+        <TextInput
+          style={[styles.input, { color: textColor }]}
+          placeholder="Enter hex color code #"
+          placeholderTextColor="#abababab"
+          onChangeText={(text) => setInputValue(text)}
+        />
+      </Animatable.View>
       <TouchableOpacity
         style={styles.previewButton}
         onPress={handleColorChange}
@@ -128,9 +134,13 @@ export default function OpenStackScreen({ navigation, route }) {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
-            <Icon name="flask" color={focused ? "#000" : color} size={size} />
+            <Icon
+              name="flask"
+              color={focused ? "#12372A" : color}
+              size={size}
+            />
           ),
-          tabBarActiveTintColor: "#000",
+          tabBarActiveTintColor: "#12372A",
         }}
       >
         {(props) => (
@@ -149,11 +159,11 @@ export default function OpenStackScreen({ navigation, route }) {
           tabBarIcon: ({ color, size, focused }) => (
             <Icon
               name="camera"
-              color={focused ? "#000" : color}
+              color={focused ? "#12372A" : color}
               size={size}
             />
           ),
-          tabBarActiveTintColor: "#000",
+          tabBarActiveTintColor: "#12372A",
         }}
       />
       <OpenStack.Screen
@@ -164,11 +174,11 @@ export default function OpenStackScreen({ navigation, route }) {
           tabBarIcon: ({ color, size, focused }) => (
             <Icon
               name="color-palette"
-              color={focused ? "#000" : color}
+              color={focused ? "#12372A" : color}
               size={size}
             />
           ),
-          tabBarActiveTintColor: "#000",
+          tabBarActiveTintColor: "#12372A",
         }}
       />
     </OpenStack.Navigator>
@@ -200,7 +210,7 @@ const styles = StyleSheet.create({
   input: {
     height: hp(7),
     width: "80%",
-    borderColor: "black",
+    borderColor: "#12372A",
     borderWidth: 3,
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -208,7 +218,7 @@ const styles = StyleSheet.create({
     fontFamily: "AnonymousPro_400Regular",
     color: "#ffffff",
     fontSize: 20,
-    shadowColor: "#000",
+    shadowColor: "#12372A",
     shadowOffset: {
       width: 10,
       height: hp(2),
@@ -216,14 +226,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: wp(1),
     elevation: 5,
-    backgroundColor: "black",
+    backgroundColor: "#12372A",
   },
   previewButton: {
     borderRadius: 10,
     borderWidth: 3,
+    borderColor: "#12372A",
     padding: 10,
     marginTop: hp(2),
-    shadowColor: "#000",
+    shadowColor: "#12372A",
     shadowOffset: {
       width: 10,
       height: hp(2),
@@ -231,7 +242,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: wp(1),
     elevation: 5,
-    backgroundColor: "black",
+    backgroundColor: "#12372A",
   },
   previewButtonText: {
     color: "#fff",
