@@ -15,12 +15,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
 import {
   useFonts,
   AnonymousPro_400Regular,
   AnonymousPro_700Bold,
 } from "@expo-google-fonts/anonymous-pro";
+import ColorFinder from "./ColorFinder";
 
 const OpenScreen = ({ backgroundColor, onSaveColor }) => {
   const [inputValue, setInputValue] = useState(""); // State to store the input value
@@ -48,7 +48,6 @@ const OpenScreen = ({ backgroundColor, onSaveColor }) => {
             styles.header,
             {
               fontSize: 45,
-              fontWeight: "bold",
               fontFamily: "AnonymousPro_700Bold",
             },
           ]}
@@ -59,7 +58,6 @@ const OpenScreen = ({ backgroundColor, onSaveColor }) => {
           text="Color Harmony"
           style={{
             fontSize: 40,
-            fontWeight: "bold",
             fontFamily: "AnonymousPro_700Bold",
             marginBottom: 10,
           }}
@@ -126,7 +124,7 @@ export default function OpenStackScreen({ navigation, route }) {
       }}
     >
       <OpenStack.Screen
-        name="Main Screen"
+        name="Color Lab"
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
@@ -143,6 +141,21 @@ export default function OpenStackScreen({ navigation, route }) {
           />
         )}
       </OpenStack.Screen>
+      <OpenStack.Screen
+        name="Color Finder AI"
+        component={ColorFinder}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Icon
+              name="camera"
+              color={focused ? "#000" : color}
+              size={size}
+            />
+          ),
+          tabBarActiveTintColor: "#000",
+        }}
+      />
       <OpenStack.Screen
         name="Saved Colors"
         component={SavedColors}
