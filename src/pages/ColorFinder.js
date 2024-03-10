@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Uploading } from "../components/Uploading";
@@ -15,11 +16,6 @@ import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../firebaseConfig";
 import MultiColorText from "../components/MultiColorText";
 import * as Animatable from "react-native-animatable";
-import {
-  useFonts,
-  AnonymousPro_400Regular,
-  AnonymousPro_700Bold,
-} from "@expo-google-fonts/anonymous-pro";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -38,7 +34,6 @@ const ColorFinder = ({ backgroundColor }) => {
     const unsubscribe = onSnapshot(collection(db, "files"), (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("New file", change.doc.data());
           setFiles((prevFiles) => [...prevFiles, change.doc.data()]);
         }
       });
@@ -74,16 +69,10 @@ const ColorFinder = ({ backgroundColor }) => {
   async function sendPostRequest(uri) {
     try {
       const formData = new FormData();
-      // formData.append("image", {
-      //   uri: uri,
-      //   type: "image/jpeg",
-      //   name: "image.jpg",
-      // });
       formData.append("name", fileName);
       console.log(formData);
-
       const response = await fetch(
-        "https://function-1-jl3rzwhdxa-oe.a.run.app",
+        "https://europe-west10-color-harmony-7f03d.cloudfunctions.net/function-1/upload_req",
         {
           method: "POST",
           body: formData,
@@ -92,20 +81,50 @@ const ColorFinder = ({ backgroundColor }) => {
           },
         }
       );
-
+  
       if (!response.ok) {
-        throw new Error("Failed to upload image");
+        throw new Alert("Failed to upload image");
       }
-
       const responseData = await response.json();
       console.log(responseData);
-      if (responseData.hexCodes && Array.isArray(responseData.hexCodes)) {
-        setHexCodes(responseData.hexCodes);
-      }
+      // if (responseData.hexCodes && Array.isArray(responseData.hexCodes)) {
+      //   setHexCodes(responseData.hexCodes);
+      // }
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };  
+
+//   async function sendPostRequest(uri, textData) {
+//     try {
+//         const response = await fetch(
+//             uri,
+//             {
+//                 method: "POST",
+//                 body: textData, // Assuming textData is a string
+//                 headers: {
+//                     "Content-Type": "text/plain", // Set Content-Type to text/plain for sending text data
+//                 },
+//             }
+//         );
+
+//         if (!response.ok) {
+//             throw new Error("Failed to upload text data");
+//         }
+
+//         const responseData = await response.text();
+//         console.log(responseData);
+
+//         // Handle responseData as needed
+//     } catch (error) {
+//         console.error("Error:", error);
+//     }
+// };
+
+// const myTextData = "This is some text data to send.";
+
+// sendPostRequest("https://europe-west10-color-harmony-7f03d.cloudfunctions.net/function-1/upload_req", myTextData);
+
 
   async function uploadImage(uri, fileType) {
     const response = await fetch(uri);
@@ -119,7 +138,6 @@ const ColorFinder = ({ backgroundColor }) => {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("progress", progress);
         setProgress(progress.toFixed());
       },
       (error) => {},
@@ -148,11 +166,6 @@ const ColorFinder = ({ backgroundColor }) => {
       console.log(e);
     }
   }
-
-  useFonts({
-    AnonymousPro_400Regular,
-    AnonymousPro_700Bold,
-  });
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -208,7 +221,7 @@ const ColorFinder = ({ backgroundColor }) => {
                   style={{
                     color: "white",
                     fontSize: 16,
-                    fontFamily: "AnonymousPro_400Regular",
+                    fontWeight: "bold",
                     marginRight: 20,
                   }}
                 >
@@ -234,13 +247,13 @@ const styles = StyleSheet.create({
   openingHeader: {
     textAlign: "center",
     fontSize: 32,
-    fontFamily: "AnonymousPro_700Bold",
+    fontWeight: "bold",
     margin: 20,
   },
   heading: {
     textAlign: "center",
     fontSize: 32,
-    fontFamily: "AnonymousPro_700Bold",
+    fontWeight: "bold",
     marginBottom: 30,
   },
   buttonContainer: {
