@@ -203,9 +203,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   subtext: {
-    fontFamily: "AnonymousPro_400Regular",
+    fontWeight: "500",
     fontSize: 18,
     padding: 10,
+    fontFamily: "AnonymousPro_700Bold",
   },
   input: {
     height: hp(7),
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     marginBottom: 20,
-    fontFamily: "AnonymousPro_400Regular",
+    fontWeight: "bold",
     color: "#ffffff",
     fontSize: 20,
     shadowColor: "#12372A",
@@ -246,7 +247,8 @@ const styles = StyleSheet.create({
   },
   previewButtonText: {
     color: "#fff",
-    fontFamily: "AnonymousPro_400Regular",
+    fontWeight: "500",
     fontSize: 16,
+    fontFamily: "AnonymousPro_700Bold"
   },
 });
