@@ -40,7 +40,13 @@ To install Color Harmony on your mobile device, follow these steps:
   npm install
 ```
 
-4. Run the application:
+4. Add your Firebase config. Copy the template and fill in the values from Firebase console > Project settings > Your apps (`.env.local` is gitignored):
+
+ ```bash
+  cp .env.example .env.local
+```
+
+5. Run the application:
 
  ```bash
   npx expo start
